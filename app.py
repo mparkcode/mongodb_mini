@@ -61,7 +61,10 @@ def get_categories():
     return render_template('categories.html',
                            categories=mongo.db.categories.find())
 
-
+@app.route('/delete_category/<category_id>', methods=["POST"])
+def delete_category(category_id):
+    mongo.db.categories.remove({'_id': ObjectId(category_id)})
+    return redirect(url_for('get_categories'))
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
